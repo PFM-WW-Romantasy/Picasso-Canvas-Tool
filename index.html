@@ -125,6 +125,29 @@ textarea { min-height: 62px; max-height: 68px; resize: none; }
   .trailerTitleBtn { padding: 9px 13px; font-size: 12px; }
 }
 
+
+
+/* v17: richer Diverse Creator explainers for founder demos. */
+.explainerBox{
+  margin:10px 0 12px;
+  border:1px solid rgba(139,92,246,.28);
+  background:linear-gradient(180deg,rgba(139,92,246,.10),rgba(56,189,248,.045));
+  border-radius:14px;
+  padding:10px 11px;
+}
+.explainerLabel{
+  margin:0 0 4px;
+  color:#d8b4fe;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.explainerText{color:#e7edf6;font-size:13.5px;line-height:1.45;margin-bottom:9px;}
+.explainerText:last-child{margin-bottom:0;}
+.explainerTags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.explainerTags .chip{font-size:10.5px;padding:4px 7px;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -159,6 +182,94 @@ const rarity=(()=>{const keys=['visualCanvasPrimary','visualCanvasSecondary','se
 function queryInput(){return {showName:$('showName').value,synopsis:$('synopsis').value,age:$('ageGroup').value,gender:$('gender').value,direction:$('direction').value,must:$('mustHave').value,avoid:$('avoid').value,limit:parseInt($('limit').value||'10',10),canvas:$('canvasNotes').value,targetCanvasRows:TARGET_CHARACTER_CANVAS,targetCanvasText:targetCanvasForPrompt()};}
 function compBlob(x){return [x.title,x.originalLabels,x.synopsis,x.targetGender,x.targetAgeBand,x.primaryGenre,x.secondaryGenre,x.primaryTrope,x.secondaryTrope,x.emotionalHook,x.powerArc,x.visualCanvasPrimary,x.visualCanvasSecondary,x.settingType,x.visualMood,x.characterComposition,x.dominantVisualHook,x.openingFormat,x.bestFitShow,x.pocketFmFitShows].join(' ');}
 function divBlob(x){return [x.title,x.genre,x.synopsis,x.trope,x.behaviorArc,x.distinctiveness,x.leadGender,x.leadEthnicity,x.market,x.platform].join(' ');}
+
+const DIVERSE_EXPLAINERS_RAW={
+  "Sinners":{
+    explainer:"Twin brothers return to 1930s Mississippi and try to build a juke-joint refuge, but the opening-night celebration turns into a confrontation with supernatural evil. The reference is useful because it grounds horror/fantasy in a highly specific community, music culture, period wardrobe and intimate emotional stakes.",
+    canvasUse:"Use for southern-gothic mood, blues/juke-joint lighting, ritualized music energy, community-under-siege staging, twin/protector compositions and grounded supernatural escalation.",
+    tags:["southern gothic","music ritual","period realism","supernatural threat","protector energy"]
+  },
+  "Black Panther":{
+    explainer:"T'Challa returns to Wakanda, a hidden and technologically advanced African nation, to inherit the throne, then faces a rival whose challenge puts both the crown and the country's future at risk.",
+    canvasUse:"Use for royal succession, hidden-world reveal, Afrofuturist production design, ceremonial power, throne-room blocking, advanced tech and warrior-community scale.",
+    tags:["Afrofuturism","hidden kingdom","royal succession","advanced tech","warrior nation"]
+  },
+  "Black Panther: Wakanda Forever":{
+    explainer:"After King T'Challa's death, Queen Ramonda, Shuri, M'Baku, Okoye and the Dora Milaje defend Wakanda while the nation grieves and faces pressure from outside powers and another hidden civilization.",
+    canvasUse:"Use for grief-to-leadership arcs, female command energy, succession pressure, Wakandan ceremonial costume, underwater/hidden-civilization contrast and large-scale defensive world-building.",
+    tags:["female command","grief to power","hidden civilization","ceremonial scale","nation defense"]
+  },
+  "Ironheart":{
+    explainer:"Riri Williams, a young genius inventor, returns to Chicago after the events of Wakanda Forever and is pulled into a conflict where advanced technology collides with dark magic.",
+    canvasUse:"Use for young Black female genius energy, armored-suit aspiration, tech-versus-magic contrast, urban Chicago grounding, invention labs and a modern superhero origin frame.",
+    tags:["female inventor","tech vs magic","armored suit","urban superhero","origin story"]
+  },
+  "Gen V":{
+    explainer:"Set at Godolkin University, a superhero-only college inside The Boys universe, Gen V follows ambitious young powered students as popularity, grades and brand-building collide with a sinister campus conspiracy.",
+    canvasUse:"Use for academy hierarchy, dangerous student powers, YA-adult competition, institutional secrets, bloody power visuals and a campus where attraction, ambition and threat sit together.",
+    tags:["superhero academy","campus conspiracy","dangerous powers","young adult edge","institutional secrets"]
+  },
+  "Queen Charlotte: A Bridgerton Story":{
+    explainer:"A Bridgerton-verse prequel where young Queen Charlotte's arranged marriage to King George becomes both an epic love story and a societal turning point that reshapes the Ton.",
+    canvasUse:"Use for arranged-marriage tension, royal court spectacle, restrained desire, female rise-to-power, ornate costumes, palace interiors and high-society gossip machinery.",
+    tags:["arranged marriage","royal romance","female power","palace world","society scandal"]
+  },
+  "Beauty in Black":{
+    explainer:"A struggling young woman tries to escape exploitation and enters the orbit of the wealthy Bellarie family, whose beauty empire hides control, secrets and ruthless family power games.",
+    canvasUse:"Use for 40+ female drama demos needing wealth contrast, beauty-business glamour, family dynasty pressure, revenge/escape energy, betrayal and power-ladder visuals.",
+    tags:["beauty empire","wealth contrast","family dynasty","escape arc","ruthless glamour"]
+  },
+  "Django Unchained":{
+    explainer:"A freed man becomes a bounty hunter and sets out across the antebellum South to rescue his wife from a brutal plantation owner, turning personal love into a revenge-and-liberation journey.",
+    canvasUse:"Use for high-contrast revenge staging, rescue motivation, outlaw journey energy, morally heightened confrontations, period danger and a powerless-to-dangerous transformation arc.",
+    tags:["revenge journey","rescue mission","period danger","power reversal","outlaw scale"]
+  },
+  "The Nevers":{
+    explainer:"A Victorian-era fantasy ensemble built around people, especially women, who manifest unusual powers and become targets in a world that fears and exploits them.",
+    canvasUse:"Use for academy/fantasy searches when you need period-supernatural styling, women-with-powers, social exclusion, hidden factions and ornate-but-dangerous city worlds.",
+    tags:["Victorian fantasy","women with powers","hidden factions","social exclusion"]
+  },
+  "Sweet Tooth":{
+    explainer:"A post-apocalyptic fantasy adventure where hybrid children emerge after a global catastrophe, with a young deer-boy and his protector moving through a dangerous transformed world.",
+    canvasUse:"Use for softer fantasy adventure, protector-child journey language, hybrid identity visuals, post-collapse landscapes and emotional innocence inside a hostile world.",
+    tags:["post-apocalyptic","hybrid identity","protector journey","storybook fantasy"]
+  },
+  "Westworld":{
+    explainer:"A sci-fi ensemble about artificial beings in controlled worlds who begin to question their reality, identity and the systems designed to exploit them.",
+    canvasUse:"Use for reality-manipulation, constructed worlds, identity awakening, futuristic control systems, elegant danger and dream/reality ambiguity.",
+    tags:["constructed reality","identity awakening","futuristic control","simulation world"]
+  },
+  "Star Trek: Picard":{
+    explainer:"A later-life Star Trek story where Jean-Luc Picard is pulled back into interstellar conflict, legacy questions and threats tied to synthetic life and galactic politics.",
+    canvasUse:"Use for futuristic command rooms, interstellar stakes, legacy heroism, high-tech mystery, space-fleet iconography and older-leader gravitas.",
+    tags:["space opera","legacy hero","synthetic life","futuristic command"]
+  },
+  "Silo":{
+    explainer:"A dystopian sci-fi mystery about a community living inside a giant underground silo, where strict rules and buried truths control what people know about the outside world.",
+    canvasUse:"Use for claustrophobic futuristic settings, secrecy-led plots, controlled societies, industrial interiors and rebellion against hidden systems.",
+    tags:["dystopian mystery","underground world","controlled society","hidden truth"]
+  },
+  "Super Sema":{
+    explainer:"An animated Afrofuturist children's series about a brilliant African girl who uses science, invention and imagination to solve problems and protect her community.",
+    canvasUse:"Use for bright science-fantasy language, girl-genius identity, optimistic Afrofuturism, community problem-solving and invention-led visual motifs.",
+    tags:["girl genius","optimistic Afrofuturism","invention","community hero"]
+  },
+  "Star Trek: Strange New Worlds":{
+    explainer:"A Star Trek ensemble following the U.S.S. Enterprise on episodic space missions with exploration, moral dilemmas, alien worlds and command-team dynamics.",
+    canvasUse:"Use for futuristic exploration, clean sci-fi production design, team command energy, alien-world variety and mission-of-the-week stakes.",
+    tags:["space exploration","team command","alien worlds","clean sci-fi"]
+  }
+};
+const DIVERSE_EXPLAINERS={};Object.keys(DIVERSE_EXPLAINERS_RAW).forEach(k=>DIVERSE_EXPLAINERS[norm(k)]=DIVERSE_EXPLAINERS_RAW[k]);
+function genericDiverseExplainer(x,input){
+  const genre=x.genre||'genre n/a', trope=x.trope||'trope n/a', arc=x.behaviorArc||'', distinct=x.distinctiveness||'';
+  const base=x.synopsis&&String(x.synopsis).trim()?String(x.synopsis).trim():`Repository synopsis is limited; use this as a ${genre} reference with ${trope} cues.`;
+  const canvas=[genre,trope,arc,distinct].filter(Boolean).join(' | ');
+  return {explainer:base,canvasUse:`Use this reference for ${canvas||'story-world, character and visual-canvas signals'} while adapting only transferable mood, structure, staging and production-design cues.`,tags:[genre,trope,arc].filter(Boolean).slice(0,4),custom:false};
+}
+function diverseExplainer(x,input){const hit=DIVERSE_EXPLAINERS[norm(x&&x.title)];if(hit)return Object.assign({custom:true},hit);return genericDiverseExplainer(x||{},input||{});}
+function renderExplainerBox(x,input){const ex=diverseExplainer(x,input);const tags=(ex.tags||[]).filter(Boolean);return `<div class="explainerBox"><div class="explainerLabel">${ex.custom?'Curated reference explainer':'Repository reference explainer'}</div><div class="explainerText">${esc(ex.explainer)}</div><div class="explainerLabel">Canvas transfer</div><div class="explainerText">${esc(ex.canvasUse)}</div>${tags.length?`<div class="explainerTags">${tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}</div>`;}
+
 function avoidPenalty(blob,avoid){const av=toks(avoid);if(!av.size)return 0;const B=toks(blob);let h=0;av.forEach(x=>{if(B.has(x))h++;});return h/Math.max(1,av.size);} function mustBoost(blob,must){const ms=toks(must);if(!ms.size)return 0;const B=toks(blob);let h=0;ms.forEach(x=>{if(B.has(x))h++;});return h/Math.max(1,ms.size);}
 function uniqueScore(x){const fields=[x.visualCanvasPrimary,x.visualCanvasSecondary,x.settingType,x.visualMood,x.dominantVisualHook,x.characterComposition,x.primaryTrope,x.secondaryTrope].filter(Boolean);let rare=0,count=0;fields.forEach(f=>String(f).split(';').forEach(t=>{t=t.trim();if(t){count++;rare+=1/Math.sqrt(rarity[t]||1);}}));const depth=Math.min(1,count/8),img=Math.min(1,(x.images||[]).length/50);return Math.min(1,(rare/Math.max(1,count))*0.55+depth*0.25+img*0.20);}
 function scoreComp(x,input){const q=[input.showName,input.synopsis,input.age,input.gender,input.direction,input.must,input.canvas].join(' '),blob=compBlob(x),story=overlap(q,blob),view=logNorm(x.totalImpressions,maxImpr)*0.72+logNorm(x.maxHeat,maxHeat)*0.18+Math.min(1,num(x.sourceRowCount)/40)*0.06+Math.min(1,num(x.maxDaysActive)/365)*0.04,unique=uniqueScore(x),must=mustBoost(blob,input.must),avoid=avoidPenalty(blob,input.avoid);return {story,view,unique,final:{similarStory:story*0.72+must*0.12+unique*0.10+view*0.06-avoid*0.35,highestViewership:view*0.82+story*0.08+unique*0.06+must*0.04-avoid*0.25,uniqueCanvas:unique*0.72+story*0.12+view*0.08+must*0.08-avoid*0.3}};}
@@ -234,12 +345,22 @@ function updateExplain(){let t='';if(rankMode==='similarStory')t='Ranks by overl
 function clip(s,n){s=String(s||'');return s.length>n?s.slice(0,n-1)+'…':s;} function classifyLine(x){return [x.primaryGenre,x.primaryTrope,x.visualCanvasPrimary,x.settingType,x.visualMood].filter(Boolean).slice(0,5).map(v=>`<span class="chip">${esc(v)}</span>`).join('');}
 function candidateImages(images){images=(images||[]).filter(Boolean).slice(0,50);const charIdx=[0,1,2,3,6,7,8,9,12,13],setIdx=[4,5,10,11,14,15,20,21,25,30],used=new Set();function pick(arr,n){const out=[];arr.concat([...Array(images.length).keys()]).forEach(i=>{if(images[i]&&!used.has(i)&&out.length<n){out.push({url:images[i],idx:i});used.add(i);}});return out;}return {chars:pick(charIdx,4),settings:pick(setIdx,4),base:images};}
 function renderVisuals(x){const c=candidateImages(x.images);const renderOne=(item,label)=>`<div class="thumb"><a href="${esc(item.url)}" target="_blank"><img loading="lazy" src="${esc(item.url)}" onerror="this.closest('.thumb').style.display='none'"></a><div class="tag">${esc(label)}</div><div class="cap">Source frame ${item.idx+1} / 50</div></div>`;return `<div class="visualPanel"><div class="visualHead"><b>4 characters + 4 settings from 50-image base</b><span class="summary">Auto-picked from the 50-frame source strip; open full strip for manual override/use.</span></div><div class="visualGrid">${c.chars.map((it,i)=>renderOne(it,'Character '+(i+1))).join('')}${c.settings.map((it,i)=>renderOne(it,'Setting '+(i+1))).join('')}</div><details><summary>Open full 50-image source strip</summary><div class="strip50">${c.base.map((u,i)=>`<a href="${esc(u)}" target="_blank" title="Frame ${i+1}"><img loading="lazy" src="${esc(u)}" onerror="this.style.display='none'"></a>`).join('')}</div></details></div>`;}
-function makePrompt(x,input){return `Create a mobile-first Pocket FM marketing canvas inspired by reference: ${x.title}.\nTarget show: ${input.showName||'target show'}.\nTarget TG: ${input.gender||'Female'} ${input.age||''}.\nShow synopsis: ${input.synopsis||'Use supplied synopsis'}.\nCanvas direction: ${input.direction}.\nCarry over classification cues only, not exact IP or exact frames.\nReference classifications: ${[x.primaryGenre||x.genre,x.primaryTrope||x.trope,x.visualCanvasPrimary||x.distinctiveness,x.settingType,x.visualMood,x.dominantVisualHook].filter(Boolean).join(' | ')}.\nCharacter/location notes: ${input.canvas||'Use selected 4 character + 4 setting references from the tool.'}.\nOutput: character canvas sheet rows, location canvas sheet rows, visual style rules, and 2-minute motion-generation prompt blocks.`;}
+function makePrompt(x,input){
+  const isDiverse=!!(x&&x.genre);
+  const ex=isDiverse?diverseExplainer(x,input):null;
+  const exLine=ex?`\nReference explainer: ${ex.explainer}\nCanvas transfer note: ${ex.canvasUse}`:'';
+  return `Create a mobile-first Pocket FM marketing canvas inspired by reference: ${x.title}.\nTarget show: ${input.showName||'target show'}.\nTarget TG: ${input.gender||'Female'} ${input.age||''}.\nShow synopsis: ${input.synopsis||'Use supplied synopsis'}.\nCanvas direction: ${input.direction}.\nCarry over classification cues only, not exact IP or exact frames.${exLine}\nReference classifications: ${[x.primaryGenre||x.genre,x.primaryTrope||x.trope,x.visualCanvasPrimary||x.distinctiveness,x.settingType,x.visualMood,x.dominantVisualHook].filter(Boolean).join(' | ')}.\nCharacter/location notes: ${input.canvas||'Use selected 4 character + 4 setting references from the tool.'}.\nOutput: character canvas sheet rows, location canvas sheet rows, visual style rules, and 2-minute motion-generation prompt blocks.`;
+}
 function slug(s){return norm(s).replace(/\s+/g,'-').slice(0,60)||'item';} function copyPrompt(title){const el=$('prompt-'+slug(title));if(el)navigator.clipboard?.writeText(el.textContent);}
 function trailerUrl(x){const direct=x.trailerUrl||x.trailer_url||x.trailerLink||x.trailer_link||x.trailer||x.Trailer||x['Trailer Link']||x['Trailer URL'];if(direct&&/^https?:\/\//i.test(String(direct)))return String(direct);const q=[x.title,x.year,'official trailer'].filter(Boolean).join(' ');return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q);}
 function openTrailer(title){const x=DIV.find(r=>r.title===title)||{title};window.open(trailerUrl(x),'_blank','noopener');}
 function renderCompCard(x,idx,input){const s=x._score,primary=Math.max(0,s.final[rankMode]||0),imgs=(x.images||[]).length;return `<div class="panel card"><div class="cardTop"><div><div class="titleline"><span class="rank">${idx+1}</span><h3>${esc(x.title)}</h3></div><div class="chips"><span class="chip">Competition Reference</span>${classifyLine(x)}</div></div><div class="score"><strong>${Math.round(primary*100)}</strong><div class="summary">${esc(labelMode(rankMode))}</div></div></div><div class="cardSplit"><div class="cardInfo"><div class="body"><div class="synopsis">${esc(clip(x.synopsis||'No synopsis available from source metadata.',520))}</div><div class="metrics"><div class="metric"><b>${Math.round(s.story*100)}%</b><span>Story similarity</span></div><div class="metric"><b>${Number(num(x.totalImpressions)).toLocaleString()}</b><span>BigSpy total impressions</span></div><div class="metric"><b>${Math.round(s.unique*100)}%</b><span>Canvas uniqueness</span></div><div class="metric"><b>${imgs}</b><span>Source images</span></div></div><div class="actions"><button class="small primary" onclick='openBlaze(${JSON.stringify(x.title)})'>Trigger Blaze MCP: Character Canvas Sheet</button><button class="small" onclick='copyPrompt(${JSON.stringify(x.title)})'>Copy canvas prompt</button></div><div class="promptBox" id="prompt-${slug(x.title)}">${esc(makePrompt(x,input))}</div></div></div><div class="cardVisualSide">${renderVisuals(x)}</div></div></div>`;}
-function renderDivCard(x,idx,input){const s=x._score,primary=Math.max(0,s.final.uniqueCanvas||s.final.similarStory||0),visuals=x.visuals||{},imgs=Object.values(visuals).filter(Boolean);return `<div class="panel card"><div class="cardTop"><div><div class="titleline"><span class="rank">${idx+1}</span><h3>${esc(x.title)}</h3><button class="trailerTitleBtn" onclick='openTrailer(${JSON.stringify(x.title)})'>Trailer link</button></div><div class="chips"><span class="chip">Diverse Creator</span><span class="chip">${esc(x.type||'Type n/a')}</span><span class="chip">${esc(x.genre||'Genre n/a')}</span><span class="chip">${esc(x.trope||'Trope n/a')}</span></div></div><div class="score"><strong>${Math.round(primary*100)}</strong><div class="summary">canvas fit</div></div></div><div class="cardSplit"><div class="cardInfo"><div class="body"><div class="synopsis">${esc(clip(x.synopsis||'',520))}</div><div class="metrics"><div class="metric"><b>${Math.round(s.story*100)}%</b><span>Story similarity</span></div><div class="metric"><b>${Number(num(x.viewership)).toLocaleString()}</b><span>Viewership field</span></div><div class="metric"><b>${Math.round(s.unique*100)}%</b><span>Canvas uniqueness</span></div><div class="metric"><b>${imgs.length}</b><span>Reference links</span></div></div><div class="actions"><button class="small primary" onclick='openBlaze(${JSON.stringify(x.title)},"diverse")'>Build Blaze MCP request</button><button class="small" onclick='copyPrompt(${JSON.stringify(x.title)})'>Copy canvas prompt</button></div><div class="promptBox" id="prompt-${slug(x.title)}">${esc(makePrompt(x,input))}</div></div></div><div class="cardVisualSide"><div class="visualPanel"><div class="visualHead"><b>Diverse visual reference links</b><span class="summary">Existing URL fields from repository</span></div><div class="visualGrid">${imgs.slice(0,8).map((u,i)=>`<div class="thumb"><a href="${esc(u)}" target="_blank"><img loading="lazy" src="${esc(u)}" onerror="this.closest('.thumb').style.display='none'"></a><div class="tag">Ref ${i+1}</div></div>`).join('')}</div></div></div></div></div>`;}
+function renderDivCard(x,idx,input){
+  const s=x._score,primary=Math.max(0,s.final.uniqueCanvas||s.final.similarStory||0),visuals=x.visuals||{},imgs=Object.values(visuals).filter(Boolean);
+  const ex=diverseExplainer(x,input);
+  const customChip=ex.custom?'<span class="chip">Curated explainer</span>':'';
+  return `<div class="panel card"><div class="cardTop"><div><div class="titleline"><span class="rank">${idx+1}</span><h3>${esc(x.title)}</h3><button class="trailerTitleBtn" onclick='openTrailer(${JSON.stringify(x.title)})'>Trailer link</button></div><div class="chips"><span class="chip">Diverse Creator</span>${customChip}<span class="chip">${esc(x.type||'Type n/a')}</span><span class="chip">${esc(x.genre||'Genre n/a')}</span><span class="chip">${esc(x.trope||'Trope n/a')}</span></div></div><div class="score"><strong>${Math.round(primary*100)}</strong><div class="summary">canvas fit</div></div></div><div class="cardSplit"><div class="cardInfo"><div class="body">${renderExplainerBox(x,input)}<div class="metrics"><div class="metric"><b>${Math.round(s.story*100)}%</b><span>Story similarity</span></div><div class="metric"><b>${Number(num(x.viewership)).toLocaleString()}</b><span>Viewership field</span></div><div class="metric"><b>${Math.round(s.unique*100)}%</b><span>Canvas uniqueness</span></div><div class="metric"><b>${imgs.length}</b><span>Reference links</span></div></div><div class="actions"><button class="small primary" onclick='openBlaze(${JSON.stringify(x.title)},"diverse")'>Build Blaze MCP request</button><button class="small" onclick='copyPrompt(${JSON.stringify(x.title)})'>Copy canvas prompt</button></div><div class="promptBox" id="prompt-${slug(x.title)}">${esc(makePrompt(x,input))}</div></div></div><div class="cardVisualSide"><div class="visualPanel"><div class="visualHead"><b>Diverse visual reference links</b><span class="summary">Existing URL fields from repository</span></div><div class="visualGrid">${imgs.slice(0,8).map((u,i)=>`<div class="thumb"><a href="${esc(u)}" target="_blank"><img loading="lazy" src="${esc(u)}" onerror="this.closest('.thumb').style.display='none'"></a><div class="tag">Ref ${i+1}</div></div>`).join('')}</div></div></div></div></div>`;
+}
 function runSearch(){const input=queryInput();let rows=[];if(mainMode==='competition'){let ranked=COMP.map(x=>Object.assign({},x,{_score:scoreComp(x,input)})).sort((a,b)=>(b._score.final[rankMode]||0)-(a._score.final[rankMode]||0));ranked=applyTargetCalibrations(ranked,'competition',input);rows=ranked.slice(0,input.limit);$('resultTitle').textContent='Competition Reference';$('summary').textContent=`${rows.length} BigSpy-backed show inspirations ranked by ${labelMode(rankMode)}.`;$('results').innerHTML=rows.map((x,i)=>renderCompCard(x,i,input)).join('')||'<div class="summary">No results.</div>';}else{let ranked=DIV.map(x=>Object.assign({},x,{_score:scoreDiv(x,input)})).sort((a,b)=>(b._score.final.uniqueCanvas||b._score.final.similarStory||0)-(a._score.final.uniqueCanvas||a._score.final.similarStory||0));ranked=applyTargetCalibrations(ranked,'diverse',input);rows=ranked.slice(0,input.limit);$('resultTitle').textContent='Diverse Creator';const p=targetProfile(input);const demoSummary=p.active?`${rows.length} diverse film/TV canvas inspirations from repository. Profile active: ${p.label}. Ranking is driven by synopsis cues plus target age/gender, then viewership and canvas uniqueness.`:`${rows.length} diverse film/TV canvas inspirations from repository. Trailer buttons open the saved trailer URL when available, otherwise YouTube official-trailer search.`;$('summary').textContent=demoSummary;$('results').innerHTML=rows.map((x,i)=>renderDivCard(x,i,input)).join('')||'<div class="summary">No results.</div>';}}
 function openBlaze(title,source){const input=queryInput();const isDiverse=source==='diverse';const x=(isDiverse?DIV:COMP).find(r=>r.title===title)||COMP.find(r=>r.title===title)||DIV.find(r=>r.title===title)||{title};let pick={chars:[],settings:[],base:[]};let referenceMeta={};if(isDiverse||x.visuals){const refs=Object.values(x.visuals||{}).filter(Boolean).slice(0,8);pick={chars:refs.slice(0,4).map((url,idx)=>({url,idx})),settings:refs.slice(4,8).map((url,idx)=>({url,idx:idx+4})),base:refs};referenceMeta={source_library:'Diverse Creator',type:x.type,year:x.year,genre:x.genre,trope:x.trope,behavior_arc:x.behaviorArc,distinctiveness:x.distinctiveness,lead_ethnicity:x.leadEthnicity,romantic_ethnicity:x.romanticEthnicity};}else{pick=candidateImages(x.images||[]);referenceMeta={source_library:'Competition Reference',genre:x.primaryGenre,trope:x.primaryTrope,visual_canvas:x.visualCanvasPrimary,setting:x.settingType,mood:x.visualMood,dominant_visual_hook:x.dominantVisualHook};}const targetRefs=(input.targetCanvasRows||[]).map(r=>r.reference_image).filter(Boolean);const competitionRefs=[...pick.chars.map(i=>i.url),...pick.settings.map(i=>i.url)].filter(Boolean);const allMedia=[...targetRefs,...competitionRefs].filter(Boolean);const response_schema={type:'object',required:['character_canvas','location_canvas','motion_prompt_blocks','identity_lock_rules'],properties:{identity_lock_rules:{type:'array',items:{type:'string'}},character_canvas:{type:'array',items:{type:'object',required:['character_name','tag','face_lock_reference_image_url','behaviourisms','wardrobe_change','setting_adaptation','generation_prompt'],properties:{character_name:{type:'string'},tag:{type:'string'},face_lock_reference_image_url:{type:'string'},behaviourisms:{type:'string'},same_face_instruction:{type:'string'},wardrobe_change:{type:'string'},setting_adaptation:{type:'string'},location_usage:{type:'string'},generation_prompt:{type:'string'}}}},location_canvas:{type:'array',items:{type:'object',properties:{location_role:{type:'string'},setting_description:{type:'string'},lighting_palette:{type:'string'},props:{type:'string'},motion_notes:{type:'string'},reference_inspiration_url:{type:'string'}}}},motion_prompt_blocks:{type:'array',items:{type:'string'}}}};const payload={action:'execute_blaze_workflow',note:'Run this via Blaze MCP from the chat/tool bridge. The target character canvas XLSX is the identity base. Preserve the same faces from target reference images; use the selected library reference only for wardrobe, lighting, world styling, settings and locations.',spec:{dsl_version:'2.0',config:{failure_policy:'fail_fast',timeout_seconds:600},input:{target_show:input.showName,target_synopsis:input.synopsis,target_age:input.age,target_gender:input.gender,target_character_canvas:input.targetCanvasRows,target_character_reference_images:targetRefs,reference_show:x.title,reference_source:referenceMeta.source_library,reference_metadata:referenceMeta,competition_character_style_images:pick.chars.map(i=>i.url),competition_setting_style_images:pick.settings.map(i=>i.url),all_reference_media_urls:allMedia,change_rules:['Preserve same face identity from target_character_reference_images.','Do not morph target character faces toward reference actors or competition references.','Use reference images only for wardrobe direction, lighting, world styling, settings, color palette and production design.','Keep character name, tag and behaviourisms from target_character_canvas unless user notes override.','Do not copy protected IP, exact frames, identifiable actor likenesses, logos, subtitles or watermarks.'],notes:input.canvas},nodes:{create_canvas_sheet:{activity:'claude_structured_generate:v1',input_map:{endpoint:'claude-sonnet-4-6',system_prompt:'You create production-ready character and location canvas sheets for short-drama marketing videos. Preserve identity from target character reference images. Reference images are style/location/wardrobe inspiration only, not face references. Return structured JSON only.',prompt:'Create a new canvas sheet for the target show. The uploaded target character canvas is the base: character name, tag, behaviourisms and reference image. Preserve the same faces from the target reference images. Change only dress, settings, locations, lighting, props and world styling using the selected reference title. Include exact rows for each target character and location. Do not copy protected IP, exact frames, logos, subtitles, watermarks, or faces from reference images.',temperature:0.35,max_tokens:7000,media_urls:'$.workflow.input.all_reference_media_urls',response_schema:{_literal:response_schema}},timeout:{start_to_close_seconds:180}}},output_map:{canvas_sheet:'$.nodes.create_canvas_sheet.output.data'}}};lastBlaze=payload;$('blazeText').value=JSON.stringify(payload,null,2);$('blazeModal').classList.add('open');}
 function closeBlaze(){$('blazeModal').classList.remove('open');}function copyBlaze(){navigator.clipboard?.writeText($('blazeText').value);}function downloadBlaze(){const blob=new Blob([$('blazeText').value],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='blaze_character_canvas_request.json';a.click();URL.revokeObjectURL(a.href);}function clearResults(){$('results').innerHTML='';$('summary').textContent='Enter show inputs and generate inspirations.';}
